@@ -1,28 +1,21 @@
 from base_function import BaseFunction
 
+
 class CostFunction(BaseFunction):
-    def __init__(self, m, x, y):
-        self.m = m
+    def __init__(self, x, y):
         self.x = x
         self.y = y
-        super().__init__(
-            lambda theta_0, theta_1:
-            sum(map(lambda i:
-                (theta_0 + theta_1 * self.x[i] - self.y[i]) ** 2, range(0, m)))/(2.0 * self.m)
-        )
+
+    def __call__(self, *theta):
+        return sum(
+            map(lambda i:
+                (sum(map(lambda j: theta[j]*self.x[i][j], range(0, len(theta)))) - self.y[i]) ** 2, range(0, len(self.x)))
+        )/(2.0 * len(self.x))
 
     def derivative(self, partial_index):
-        if partial_index == 0:
-            return (
-                lambda theta_0, theta_1:
-                sum(map(lambda i:
-                    (theta_0+theta_1 * self.x[i]-self.y[i]), range(0, self.m)))/self.m
-            )
-        if partial_index == 1:
-            return (
-                lambda theta_0, theta_1:
-                sum(map(lambda i:
-                    self.x[i]*(theta_0+theta_1 * self.x[i] -
-                               self.y[i]), range(0, self.m))
-                    )/self.m
-            )
+        return lambda *theta: (
+            sum(
+                map(lambda i:
+                    self.x[i][partial_index]*(sum(map(lambda j: theta[j]*self.x[i][j], range(0, len(theta)))) - self.y[i]), range(0, len(self.x)))
+            )/len(self.x)
+        )

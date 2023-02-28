@@ -10,16 +10,15 @@ real_theta_1 = 5*(np.random.rand()-0.5)
 x = np.arange(-10, 10, 0.5)
 y = list(map(lambda u: u - 2*(np.random.rand()-0.5),
          list(real_theta_0+real_theta_1*x)))
-m = len(x)
 
-c = CostFunction(m, x, y)
+c = CostFunction(list(map(lambda val: [1,val], x)), y)
 
 c_v = np.frompyfunc(c, 2, 1)
 
 gd_solver = GradientDescent(c)
 theta_0, theta_1 = gd_solver.solve()
 history = gd_solver.get_history()
-history_x, history_y = history['values']
+values = history['values']
 iterations = history['iterations']
 
 print('result')
@@ -36,7 +35,6 @@ plt.show()
 plt.style.use('_mpl-gallery')
 
 x2 = np.arange(-10, 10, 0.25)
-y2 = list(map(lambda theta_1: c(1, theta_1), x2))
 y2 = c_v(x2, 1)
 
 fig, ax = plt.subplots()
@@ -44,16 +42,16 @@ ax.plot(x2, y2)
 plt.show()
 
 # Make data
-X = np.arange(-10, 10, 0.1)
-Y = np.arange(-10, 10, 0.1)
+X = np.arange(-2, 2, 0.1)
+Y = np.arange(-2, 2, 0.1)
 X, Y = np.meshgrid(X, Y)
 Z = c_v(X, Y)
 
 # Plot the surface
 fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-ax.view_init(40, 50)
+ax.view_init(40, -10)
 ax.plot_surface(X, Y, Z, cmap=cm.Blues)
-ax.plot3D(history_x, history_y, c_v(history_x, history_y), 'g.')
+ax.plot3D(list(map(lambda values: values[0], values)), list(map(lambda values: values[1], values)), list(map(lambda v: c_v(*v), values)), 'g.')
 
 plt.show()
 

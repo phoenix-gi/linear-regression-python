@@ -7,32 +7,21 @@ class GradientDescent(BaseSolver):
         super().__init__(func)
 
     def solve(self, rate=0.005):
-        theta_0 = -9
-        theta_1 = -10
+        theta = list(map(lambda i: 2, range(0, len(self.func.x[0]))))
         convergence = False
-        history_0 = [theta_0]
-        history_1 = [theta_1]
-        history_iterations = [self.func(theta_0, theta_1)]
+        values = [theta]
+        history_iterations = [self.func(*theta)]
         while not convergence:
-            c_0 = self.func.derivative(0)(theta_0, theta_1)
-            c_1 = self.func.derivative(1)(theta_0, theta_1)
-            t_0 = theta_0 - rate*c_0
-            t_1 = theta_1 - rate*c_1
-            theta_0 = t_0
-            theta_1 = t_1
-            history_0.append(theta_0)
-            history_1.append(theta_1)
-            history_iterations.append(self.func(theta_0, theta_1))
-            little_diff = abs(history_iterations[-2] - history_iterations[-1]) <= 0.01
-            derivative_close_to_zero = abs(c_0) <= 0.01 and abs(c_1) <= 0.01
-            convergence = little_diff or derivative_close_to_zero
+            theta = list(map(lambda j: theta[j] - rate*self.func.derivative(j)(*theta), range(0, len(theta))))
+
+            values.append(theta)
+            history_iterations.append(self.func(*theta))
+            convergence = abs(history_iterations[-2] - history_iterations[-1]) <= 0.01
         self.history = {
-            "values": [history_0, history_1],
+            "values": values,
             "iterations": history_iterations
         }
-        self.theta_0 = theta_0
-        self.theta_1 = theta_1
-        return theta_0, theta_1
+        return theta
 
     def get_history(self):
         return self.history
