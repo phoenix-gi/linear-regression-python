@@ -6,8 +6,7 @@ class GradientDescent(BaseSolver):
         self.history = []
         super().__init__(func)
 
-    def solve(self, rate=0.005):
-        theta = list(map(lambda i: 2, range(0, len(self.func.x[0]))))
+    def solve(self, theta, rate=0.005):
         convergence = False
         values = [theta]
         history_iterations = [self.func(*theta)]

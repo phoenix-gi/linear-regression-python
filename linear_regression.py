@@ -16,7 +16,7 @@ c = CostFunction(list(map(lambda val: [1,val], x)), y)
 c_v = np.frompyfunc(c, 2, 1)
 
 gd_solver = GradientDescent(c)
-theta_0, theta_1 = gd_solver.solve()
+theta_0, theta_1 = gd_solver.solve(theta=list(map(lambda i: 2, range(0, 2))))
 history = gd_solver.get_history()
 values = history['values']
 iterations = history['iterations']
