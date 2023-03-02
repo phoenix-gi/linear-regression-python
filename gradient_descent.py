@@ -6,7 +6,7 @@ class GradientDescent(BaseSolver):
         self.history = []
         super().__init__(func)
 
-    def solve(self, theta, rate=0.005):
+    def solve(self, theta, rate=0.005, max_iterations=10000):
         convergence = False
         values = [theta]
         history_iterations = [self.func(*theta)]
@@ -15,7 +15,7 @@ class GradientDescent(BaseSolver):
 
             values.append(theta)
             history_iterations.append(self.func(*theta))
-            convergence = abs(history_iterations[-2] - history_iterations[-1]) <= 0.01
+            convergence = abs(history_iterations[-2] - history_iterations[-1]) <= 0.01 or len(history_iterations) >= max_iterations
         self.history = {
             "values": values,
             "iterations": history_iterations
