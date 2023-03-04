@@ -1,3 +1,3 @@
-# Linear regression on Python
+# Machine learning on Python
 
-Implementaton of algorithms which solve linear regression problem
+My personal laboratory for machine learning experiments on Python
