@@ -59,6 +59,17 @@ class LinearRegressionExperiment(GradientDescentExperiment):
         ax.plot(list(range(0, len(iterations))), iterations, 'b.')
         plt.show()
 
+        Y = np.arange(-15, 15, 0.1)
+        X = np.arange(-80, 80, 0.5)
+        X, Y = np.meshgrid(X, Y)
+        Z = np.array(c_v(X, Y).tolist())
+        fig, ax = plt.subplots()
+        ax.contour(X, Y, Z, levels=np.arange(-200, 3000, 150))
+        ax.plot(list(map(lambda values: values[0], values)),
+                list(map(lambda values: values[1], values)), 'g.')
+        ax.plot([self.theta[0]], [self.theta[1]], 'r.')
+        plt.show()
+
 
 lre = LinearRegressionExperiment()
 lre.set_start_theta([-8, 10])
