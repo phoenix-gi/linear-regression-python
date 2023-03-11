@@ -1,7 +1,7 @@
 from base_function import BaseFunction
 
 
-class CostFunction(BaseFunction):
+class QuadraticErrorCostFunction(BaseFunction):
     def __init__(self, x, y):
         self.x = x
         self.y = y

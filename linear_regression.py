@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import cm
 import numpy as np
-from cost_function import CostFunction
+from quadratic_error_cost_function import QuadraticErrorCostFunction
 from gradient_descent_experiment import GradientDescentExperiment
 
 
@@ -12,7 +12,7 @@ class LinearRegressionExperiment(GradientDescentExperiment):
         self.y = list(map(lambda u: u - 2*(np.random.rand()-0.5),
                           list(self.real_theta[0]+self.real_theta[1]*self.x))
                       )
-        return CostFunction(list(map(lambda val: [1, val], self.x)), self.y)
+        return QuadraticErrorCostFunction(list(map(lambda val: [1, val], self.x)), self.y)
 
     def output_results(self):
         iterations = self.get_history_iterations()
