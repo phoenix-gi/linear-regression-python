@@ -49,6 +49,7 @@ class ParabaloidFunctionExperiment(GradientDescentExperiment):
 
 
 sfe = ParabaloidFunctionExperiment()
+sfe.set_stop_threshold(0.01)
 sfe.set_start_theta([-20,-20])
 sfe.set_max_iterations(1000)
 

@@ -9,7 +9,7 @@ class GradientDescentExperiment(Experiment):
     def run_experiment(self):
         gd_solver = GradientDescent(self.func)
         self.theta = gd_solver.solve(
-            theta=self.start_theta, rate=self.learning_rate, max_iterations=self.max_iterations
+            theta=self.start_theta, rate=self.learning_rate, max_iterations=self.max_iterations, stop_threshold=self.stop_threshold
         )
         self.history = gd_solver.get_history()
 
@@ -39,6 +39,12 @@ class GradientDescentExperiment(Experiment):
 
     def get_max_iterations(self):
         return self.max_iterations
+
+    def set_stop_threshold(self, stop_threshold):
+        self.stop_threshold = stop_threshold
+
+    def get_stop_threshold(self):
+        return self.stop_threshold
 
     def get_history(self):
         return self.history

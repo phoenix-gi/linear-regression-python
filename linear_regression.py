@@ -64,6 +64,7 @@ class LinearRegressionExperiment(GradientDescentExperiment):
 
 
 lre = LinearRegressionExperiment()
+lre.set_stop_threshold(0.01)
 lre.set_start_theta([-15, 15])
 lre.set_max_iterations(10000)
 
