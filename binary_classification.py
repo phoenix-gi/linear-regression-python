@@ -4,6 +4,8 @@ import numpy as np
 from logistic_cost_function import LogisticCostFunction
 from gradient_descent_experiment import GradientDescentExperiment
 from matplotlib.animation import FuncAnimation
+import calendar
+import time
 
 np.seterr(all='raise')
 
@@ -45,6 +47,27 @@ class BinaryClassificationExperiment(GradientDescentExperiment):
         fig, ax = plt.subplots()
         ax.plot(list(range(0, len(iterations))), iterations, 'b.')
         plt.show()
+
+
+        fig = plt.figure()
+        ax = plt.axes(xlim=(0, 4), ylim=(-2, 2))
+        line, = ax.plot([], [], lw=3)
+
+        def init():
+            line.set_data([], [])
+            return line,
+        def animate(i):
+            t = values[i]
+            x = np.arange(-5,5,0.1)
+            y = list(map(lambda i: (-t[0]-t[1]*x[i])/t[2],range(0,len(x))))
+            line.set_data(x, y)
+            return line,
+
+        anim = FuncAnimation(fig, animate, init_func=init,
+                                    frames=len(values), interval=20, blit=True)
+
+
+        anim.save(f'binary_classification_{calendar.timegm(time.gmtime())}.gif', writer='imagemagick')
 
 
 lre = BinaryClassificationExperiment()
