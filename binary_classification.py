@@ -48,10 +48,19 @@ class BinaryClassificationExperiment(GradientDescentExperiment):
         ax.plot(list(range(0, len(iterations))), iterations, 'b.')
         plt.show()
 
+        # make animation of learning process
+        fig, ax = plt.subplots()
+        x1 = list(map(lambda x: x[1], self.x))
+        x2 = list(map(lambda x: x[2], self.x))
+        c = list(map(lambda y: 'blue' if y == 1 else 'green', self.y))
+        ax.scatter(x1, x2, c=c)
+        x1 = np.arange(-5,5,0.1)
 
-        fig = plt.figure()
-        ax = plt.axes(xlim=(0, 4), ylim=(-2, 2))
-        line, = ax.plot([], [], lw=3)
+        t = self.theta
+        x2 = list(map(lambda i: (-t[0]-t[1]*x1[i])/t[2],range(0,len(x1))))
+        ax.plot(x1,x2,'r')
+
+        line, = ax.plot([], [], 'm',lw=3)
 
         def init():
             line.set_data([], [])
