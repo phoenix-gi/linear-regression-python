@@ -56,26 +56,32 @@ class BinaryClassificationExperiment(GradientDescentExperiment):
         ax.scatter(x1, x2, c=c)
         x1 = np.arange(-5,5,0.1)
 
-        t = self.theta
+        t = self.real_theta
         x2 = list(map(lambda i: (-t[0]-t[1]*x1[i])/t[2],range(0,len(x1))))
-        ax.plot(x1,x2,'r')
+        ax.plot(x1,x2,'m')
 
-        line, = ax.plot([], [], 'm',lw=3)
+        line, = ax.plot([], [], 'r')
+
+        num_of_frames = 200
+        if len(values) < num_of_frames:
+            num_of_frames = len(values)
 
         def init():
             line.set_data([], [])
             return line,
         def animate(i):
-            t = values[i]
+            step = len(values) // num_of_frames
+            shift = len(values) - (num_of_frames - 1) * step - 1
+            t = values[i * step + shift]
             x = np.arange(-5,5,0.1)
-            y = list(map(lambda i: (-t[0]-t[1]*x[i])/t[2],range(0,len(x))))
+            y = list(map(lambda j: (-t[0]-t[1]*x[j])/t[2],range(0,len(x))))
             line.set_data(x, y)
             return line,
 
         anim = FuncAnimation(fig, animate, init_func=init,
-                                    frames=len(values), interval=20, blit=True)
+                                    frames=num_of_frames, interval=40, blit=True)
 
-
+        plt.show()
         anim.save(f'binary_classification_{calendar.timegm(time.gmtime())}.gif', writer='imagemagick')
 
 
