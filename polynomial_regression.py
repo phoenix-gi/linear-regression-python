@@ -2,7 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from quadratic_error_cost_function import QuadraticErrorCostFunction
 from gradient_descent_experiment import GradientDescentExperiment
-
+from matplotlib.animation import FuncAnimation
+import calendar
+import time
 
 class PolynomialRegressionExperiment(GradientDescentExperiment):
     def setup_func(self):
@@ -75,10 +77,38 @@ class PolynomialRegressionExperiment(GradientDescentExperiment):
         print('Num of iterations: ', len(iterations))
         print('theta=', values[-1], ' J(theta)=', iterations[-1])
 
+        # make animation of learning process
+        fig, ax = plt.subplots()
+        ax.plot(self.x, self.y, 'b.')
+
+        line, = ax.plot([], [], 'r.')
+
+        num_of_frames = len(values)
+
+        def init():
+            line.set_data([], [])
+            return line,
+        def animate(i):
+            step = len(values) // num_of_frames
+            shift = len(values) - (num_of_frames - 1) * step - 1
+            t = values[i * step + shift]
+            x1 = np.arange(-30, 20, 1.5)
+            y1 = t[0] + t[1] * (x1 - self.means[1])/(self.maxs[1]-self.mins[1]) + \
+                 t[2] * ((x1**2 - self.means[2])/(self.maxs[2]-self.mins[2])) + \
+                 t[3] * (x1**3 - self.means[3])/(self.maxs[3]-self.mins[3])
+            line.set_data(x1, y1)
+            return line,
+
+        anim = FuncAnimation(fig, animate, init_func=init,
+                                    frames=num_of_frames, interval=40, blit=True)
+
+        plt.show()
+        anim.save(f'polynomial_regression_{calendar.timegm(time.gmtime())}.gif', writer='imagemagick')
+
 
 pre = PolynomialRegressionExperiment()
 pre.set_stop_threshold(0.000000001)
-pre.set_start_theta([3, 1, 1, 1])
+pre.set_start_theta([300, 20, 20, 20])
 pre.set_max_iterations(10000)
 
 rates = [2, 1.99, 1.9, 1.8, 1.7, 1.6, 1.5, 0.99, 0.1]
