@@ -1,4 +1,4 @@
-from base_function import BaseFunction
+from .base_function import BaseFunction
 
 
 class SquareFunction(BaseFunction):

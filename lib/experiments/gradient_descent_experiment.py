@@ -1,5 +1,5 @@
-from experiment import Experiment
-from gradient_descent import GradientDescent
+from .experiment import Experiment
+from ..algorithms.gradient_descent import GradientDescent
 
 
 class GradientDescentExperiment(Experiment):

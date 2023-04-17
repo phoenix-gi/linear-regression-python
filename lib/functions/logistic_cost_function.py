@@ -1,4 +1,4 @@
-from base_function import BaseFunction
+from .base_function import BaseFunction
 import math
 
 class LogisticCostFunction(BaseFunction):
