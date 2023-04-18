@@ -8,11 +8,16 @@ import calendar
 import time
 
 class BinaryClassificationExperiment(GradientDescentExperiment):
+    def set_real_theta(self, real_theta):
+        self.real_theta = real_theta
+
+    def set_x(self, x):
+        self.x=x
+
+    def set_y(self, y):
+        self.y = y
+
     def setup_func(self):
-        self.real_theta = [3*(np.random.rand()-0.5), 3 *
-                           (np.random.rand()-0.5), 5*(np.random.rand()-0.5)]
-        self.x = list(map(lambda i: [1, np.random.rand()*10-5, np.random.rand()*10-5], range(0, 100)))
-        self.y = list(map(lambda x:  1 if (self.real_theta[0]*x[0] + self.real_theta[1]*x[1]+self.real_theta[2]*x[2] >= 0) else 0, self.x))
         return LogisticCostFunction(self.x, self.y)
 
     def output_results(self):
